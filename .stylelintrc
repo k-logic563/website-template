@@ -1,0 +1,41 @@
+{
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recess-order",
+    "./node_modules/prettier-stylelint/config.js"
+  ],
+  "rules": {
+    "indentation": 2,
+    "no-descending-specificity": null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "include",
+          "mixin",
+          "each",
+          "forward",
+          "use",
+          "if",
+          "else",
+          "for",
+          "function",
+          "return",
+          "extend",
+          "apply",
+          "screen",
+          "import-glob"
+        ]
+      }
+    ],
+    "unit-no-unknown": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "no-duplicate-selectors": null,
+    "declaration-colon-space-before": "never",
+    "declaration-colon-space-after": "always",
+    "block-opening-brace-space-before": "always"
+  }
+}

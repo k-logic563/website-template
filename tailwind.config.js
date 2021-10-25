@@ -7,8 +7,8 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontSize: customFontSize,
-    margin: customSpacer.margin,
-    padding: customSpacer.padding,
+    margin: customSpacer,
+    padding: customSpacer,
     extend: {},
   },
   variants: {
