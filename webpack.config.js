@@ -1,16 +1,14 @@
 const path = require('path')
+const { ESBuildMinifyPlugin } = require('esbuild-loader')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 
 const MODE = process.env.NODE_ENV === 'development' ? 'development' : 'production'
 const enabledSourceMap = MODE === 'development'
 
 const config = {
-  entry: './src/js/main.ts',
+  entry: './src/js/main.js',
   output: {
-    path: path.resolve(__dirname, 'js'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
   cache: {
@@ -24,21 +22,20 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        exclude: [/node_modules\/(?!(dom7|swiper)\/).*/],
-        use: 'ts-loader',
+        test: /\.js$/,
+        loader: 'esbuild-loader'
       },
       {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          'style-loader',
+          'css-loader',
           {
-            loader: 'css-loader',
+            loader: 'esbuild-loader',
             options: {
-              url: false,
-              importLoaders: 1,
-              sourceMap: enabledSourceMap,
-            },
+              loader: 'css',
+              minify: true
+            }
           },
           'postcss-loader',
         ]
@@ -46,24 +43,18 @@ const config = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '../css/style.css'
-    }),
     new BrowserSyncPlugin({
       host: 'localhost',
       port: 3000,
-      server: { baseDir: ['public'] }
     })
   ],
   resolve: {
     extensions: ['.js', '.ts', '.css']
   },
-  optimization: MODE === 'production' ? {
-    minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})]
-  } : {},
-  performance: {
-    maxEntrypointSize: 500000,
-    maxAssetSize: 500000,
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin()
+    ]
   }
 }
 

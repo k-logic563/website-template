@@ -1,4 +1,3 @@
-html {
-  font-feature-settings: "palt";
-  letter-spacing: 0.01em;
-}
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
